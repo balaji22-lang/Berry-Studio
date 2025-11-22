@@ -7,7 +7,8 @@ import {
   User,
   X,
   Moon,
-  Sun
+  Sun,
+  Menu
 } from 'lucide-react';
 import CIcon from '@coreui/icons-react';
 import { cilDollar } from '@coreui/icons';
@@ -40,6 +41,7 @@ function BerryStudioDashboard() {
   const [isSliding, setIsSliding] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme === 'dark';
@@ -882,22 +884,66 @@ function BerryStudioDashboard() {
         </div>
       )}
 
-      <aside className="hidden md:flex w-64 bg-white dark:bg-slate-900 border-r border-gray-100 dark:border-slate-800 px-6 py-8 flex-col">
-        <div className="mb-10">
+      {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-30 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 -ml-2 text-gray-600 dark:text-gray-300">
+            <Menu size={24} />
+          </button>
           <div className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">BerryStudio</div>
+        </div>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setIsSettingsOpen(true)}
+            className="p-2 text-gray-600 dark:text-gray-300"
+          >
+            <Settings size={20} />
+          </button>
+          <button 
+            onClick={handleProfileClick}
+            className="w-8 h-8 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden relative"
+          >
+            {profileImage ? (
+              <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              <User size={16} className="text-gray-400 dark:text-gray-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-slate-900 border-r border-gray-100 dark:border-slate-800 px-6 py-8 flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:h-screen
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <div className="mb-10 flex items-center justify-between">
+          <div className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">BerryStudio</div>
+          <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden p-2 -mr-2 text-gray-500">
+            <X size={20} />
+          </button>
         </div>
         <SidebarNav />
       </aside>
 
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-[1200px] mx-auto px-6 py-8 space-y-6 relative">
-          {/* Back button moved to top-left corner of main container */}
-          <button className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm absolute top-0 left-6" style={{ marginLeft: '-248px' }}>
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      <main className="flex-1 overflow-y-auto h-screen pt-16 md:pt-0">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-8 space-y-6 relative">
+          {/* Back button - Hidden on mobile, shown on desktop */}
+          <button className="hidden md:flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm absolute top-0 left-6" style={{ marginLeft: '-248px' }}>
             <ChevronLeft size={18} />
             <span>Back</span>
           </button>
-          {/* Top right elements positioned absolutely */}
-          <div className="flex items-center gap-3 absolute top-0 right-6" style={{ marginTop: 'inherit', marginRight: '-247px' }}>
+          
+          {/* Top right elements - Hidden on mobile (moved to header), shown on desktop */}
+          <div className="hidden md:flex items-center gap-3 absolute top-0 right-6" style={{ marginTop: 'inherit', marginRight: '-247px' }}>
             <button 
               onClick={() => setIsSettingsOpen(true)}
               className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 transition-colors"
@@ -924,7 +970,8 @@ function BerryStudioDashboard() {
               )}
             </button>
           </div>
-          <section className="px-8 py-6 space-y-6">
+
+          <section className="px-2 md:px-8 py-6 space-y-6">
             <div className="flex items-start gap-4">
               {profileImage ? (
                 <img 
@@ -940,7 +987,7 @@ function BerryStudioDashboard() {
                   <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">Carl S Griffith</h1>
                   <span className="px-3 py-1 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 text-xs rounded-full">Female • 23y, 10m</span>
                 </div>
-                <div className="flex flex-wrap gap-6 text-sm">
+                <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                   {patientDetails.map(detail => (
                     <div key={detail.label} className="flex items-center gap-2 text-gray-600">
                       <detail.icon size={16} className="text-gray-500 dark:text-gray-400" />
@@ -951,12 +998,12 @@ function BerryStudioDashboard() {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-2 md:gap-4 overflow-x-auto pb-2 hide-scrollbar">
               {pills.map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-3 py-2 text-xs font-semibold rounded-full transition-all ${
+                  className={`px-3 py-2 text-xs font-semibold rounded-full transition-all whitespace-nowrap ${
                     activeTab === tab ? 'bg-black dark:bg-white text-white dark:text-black shadow-md' : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
@@ -968,7 +1015,7 @@ function BerryStudioDashboard() {
 
           <section className="flex flex-col lg:flex-row gap-6 items-start">
             <div className="w-full lg:w-64 space-y-4">
-              <div className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-[0px_15px_55px_rgba(15,23,42,0.05)]" style={{ width: '240px', height: '480px' }}>
+              <div className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-[0px_15px_55px_rgba(15,23,42,0.05)] w-full lg:h-[480px]">
                 <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.2em] mb-3">Overview</div>
                 <div className="text-base font-semibold text-gray-900 dark:text-white mb-4">Account Summary</div>
 
@@ -1038,7 +1085,7 @@ function BerryStudioDashboard() {
               </div>
             </div>
 
-            <div className="flex-1 space-y-6">
+            <div className="flex-1 space-y-6 w-full min-w-0">
               <AccountSummary 
                 selectedInsurance={selectedInsurance}
                 currentMetrics={currentMetrics}

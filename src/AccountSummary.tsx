@@ -24,15 +24,15 @@ export default function AccountSummary({
         src={decorativeImage1}
         alt="Decorative element" 
         style={{ width: '98.98px', marginRight: '104px', marginTop: '-59px', height: '108.41px' }}
-        className="absolute top-1 right-12 z-0"
+        className="absolute top-1 right-12 z-0 hidden lg:block"
       />
       <img 
         src={decorativeImage2}
         alt="Decorative element" 
         style={{ width: '96.38px', marginRight: '67px', marginTop: '-80px', height: '133.95px' }}
-        className="absolute top-1 right-0 z-0"
+        className="absolute top-1 right-0 z-0 hidden lg:block"
       />
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-[0px_20px_70px_rgba(15,23,42,0.06)] border border-white dark:border-slate-800 relative z-10" style={{ width: '976px', height: '543px' }}>
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-[0px_20px_70px_rgba(15,23,42,0.06)] border border-white dark:border-slate-800 relative z-10 w-full">
         <div className="mb-4 space-y-1">
           <div className="flex items-center gap-3">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
