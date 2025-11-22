@@ -42,7 +42,7 @@ function BerryStudioDashboard() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    return savedTheme === 'dark';
   });
 
   const [profileImage, setProfileImage] = useState<string | null>(() => {
