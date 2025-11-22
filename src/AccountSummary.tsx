@@ -2,6 +2,8 @@ import React from 'react';
 import ChartGridLines from './ChartGridLines';
 import { insuranceData } from './data';
 import { AccountMetric } from './types';
+import decorativeImage1 from './images/Screenshot_2025-11-20_145127-removebg-preview_imgupscaler.ai_V1(Fast)_2K.svg';
+import decorativeImage2 from './images/Screenshot_2025-11-20_144037-removebg-preview_imgupscaler.ai_V1(Fast)_2K.svg';
 
 interface AccountSummaryProps {
   selectedInsurance: string;
@@ -19,13 +21,13 @@ export default function AccountSummary({
   return (
     <div className="relative">
       <img 
-        src="/src/images/Screenshot_2025-11-20_145127-removebg-preview_imgupscaler.ai_V1(Fast)_2K.svg" 
+        src={decorativeImage1}
         alt="Decorative element" 
         style={{ width: '98.98px', marginRight: '104px', marginTop: '-59px', height: '108.41px' }}
         className="absolute top-1 right-12 z-0"
       />
       <img 
-        src="/src/images/Screenshot_2025-11-20_144037-removebg-preview_imgupscaler.ai_V1(Fast)_2K.svg" 
+        src={decorativeImage2}
         alt="Decorative element" 
         style={{ width: '96.38px', marginRight: '67px', marginTop: '-80px', height: '133.95px' }}
         className="absolute top-1 right-0 z-0"
